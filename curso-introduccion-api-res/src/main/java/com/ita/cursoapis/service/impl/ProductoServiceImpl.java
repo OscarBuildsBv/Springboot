@@ -4,6 +4,7 @@ import com.ita.cursoapis.entity.EstadoProducto;
 import com.ita.cursoapis.entity.Producto;
 import com.ita.cursoapis.repository.ProductoRepository;
 import com.ita.cursoapis.service.ProductoService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,16 +31,22 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Optional<Producto> buscarPorNombre(String nombre) {
-        return Optional.empty();
+
+        return productoRepository.findByNombreProducto(nombre);
     }
 
     @Override
-    public Optional<Producto> buscarPorId(long idProducto) {
-        return Optional.empty();
+    public Optional<Producto> buscarPorId(long idProducto)
+    {
+        return productoRepository.findByIdProducto(idProducto);
     }
 
     @Override
+    @SneakyThrows
     public Producto actualizarProducto(Long idProducto, Producto producto) {
+
+        Producto ProductoExistente=productoRepository.findByIdProducto(idProducto)
+                .orElseThrow(() -> new Exception("Producto con ID "+idProducto+" no encontrado"));
         return null;
     }
 
@@ -50,7 +57,8 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Producto cambiarEstadoProducto(Long idProducto, EstadoProducto nuevoEstadoProducto) {
-        return null;
+
+        return productoRepository.findByEstado(nuevoEstadoProducto);
     }
 
     @Override
